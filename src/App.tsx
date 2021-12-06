@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import style from './App.module.sass';
+import { Image } from './types/image';
 
 function App() {
+  const [images, setImages] = useState([
+    
+  ])
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const response = await fetch('https://jsonplaceholder.typicode.com/photos')
+      const data = await response.json()
+      setImages(data)
+    }
+
+    fetchMyAPI()
+  }, [images])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {images.map((item: Image, index: number) => {
+        return (
+          <div className={style.tile} key={item.id}>
+            {item.title}
+          </div>
+        )
+      })}
     </div>
   );
 }
