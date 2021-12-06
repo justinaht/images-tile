@@ -1,70 +1,66 @@
 import React, { useEffect, useState } from "react";
-import style from "./App.module.sass";
 import "./App.sass";
-import { Image } from "./types/image";
-import classNames from "classnames";
-import TextBox from "./components/TextBox/TextBox";
+import { ItemModel } from "./types/ItemModel";
+import loader from "./assets/loading.gif";
 import { NUMBER_OF_EACH_FETCH } from "./common/constants";
+import { loadDefault, loadNextData } from "./actions";
+import Item from "./components/Item/Item";
 
 function App() {
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<ItemModel[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [disable, setDisabled] = useState(true);
 
   async function loadDefaultData() {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/photos?_start=0&_end=10`
-    );
-    const data = await response.json();
+    const data = await loadDefault();
     setImages(data);
   }
-
-  async function fetchMoreData() {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/photos?_start=${
-        images.length
-      }&_end=${images.length + NUMBER_OF_EACH_FETCH}`
-    );
-    const data = await response.json();
-    setImages([...images, ...data]);
-  }
-  const [index, setIndex] = useState(0);
 
   // didmount
   useEffect(() => {
     loadDefaultData();
   }, []);
 
+  async function fetchMoreData() {
+    setLoading(true);
+    const data = await loadNextData(images.length, NUMBER_OF_EACH_FETCH);
+    setLoading(false);
+    setImages([...images, ...data]);
+  }
+  const [index, setIndex] = useState(0);
+
   const onLoadMore = async () => {
     fetchMoreData();
-    setIndex(index + 10);
+    setIndex(index + NUMBER_OF_EACH_FETCH);
   };
 
-  const setContainerClass = (idx: number) =>
-    classNames({
-      [style.tile]: true,
-      container: true,
-      "bg-gray": idx % 2 === 0,
-      "bg-white": idx % 2 !== 0,
-    });
+  const onReset = () => {
+    setImages(images);
+    setDisabled(true);
+  };
 
-  const txtChange = (e: string) => {
-    // console.log('e :>> ', e);
+  const onUpdate = () => {
+    setImages(images);
+    setDisabled(true);
   };
 
   return (
     <div className="App">
-      <div className="flex">
-        {images.map((item: Image, index: number) => {
-          const containerCls = setContainerClass(index);
-          return (
-            <div className={containerCls} key={item.id}>
-              <div className="label">
-                <TextBox value={item.title} onValueChanged={txtChange} />
-              </div>
-              <img className="img" src={item.thumbnailUrl} alt={item.title} />
-            </div>
-          );
-        })}
-      </div>
+      {images.map((item: ItemModel, index: number) => (
+        <Item
+          Item={item}
+          index={index}
+          onSetDisabled={setDisabled}
+          key={item.id}
+        />
+      ))}
+      {loading && <img src={loader} alt="Loading icon" />}
+      <button onClick={onUpdate} disabled={disable}>
+        Confirm Update
+      </button>
+      <button onClick={onReset} disabled={disable}>
+        Reset
+      </button>
       <button onClick={onLoadMore}>Load more data</button>
     </div>
   );

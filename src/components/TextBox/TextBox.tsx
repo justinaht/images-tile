@@ -36,7 +36,6 @@ export default function TextBox(props: TextBoxProps) {
   };
 
   const onKeyDown = (e: any) => {
-    console.log("e :>> ", e);
     if (e.keyCode === 13 || e.keyCode === 27) {
       setFocus(false);
       setTxtCls(style.txt_as_label);

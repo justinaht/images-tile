@@ -1,4 +1,4 @@
-export interface Image {
+export interface ItemModel {
   albumId: number
   id: number
   title: string
