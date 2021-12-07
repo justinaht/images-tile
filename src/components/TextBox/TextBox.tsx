@@ -9,7 +9,7 @@ export default function TextBox(props: TextBoxProps) {
 
   useEffect(() => {
     setText(props.value);
-  }, []);
+  }, [props.value]);
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
