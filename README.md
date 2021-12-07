@@ -1,46 +1,32 @@
-# Getting Started with Create React App
+# EAB Code challenge
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [System overview](#system-overview)
+- [Setup](#setup)
 
-## Available Scripts
+## System overview
 
-In the project directory, you can run:
+This is a ReactJS using typescript template, sass to style components.
 
-### `yarn start`
+## Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+First, you need an **.env** file to run the project locally. Copy **.env.example** to your own **.env.local** or **.env** file:
+```
+$ cp .env.example .env.local
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Then, you can run the app in development mode w/o docker, either:
+1. Build the app with dockerfile
+```
+# Start docker-compose first
+$ docker-compose up -d --build
 
-### `yarn test`
+# Or build the app
+$ docker build -t images-tile .
+$ docker run --env-file .env.local -p 5000:5000 images-tile
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Or, installing the dependencies in your local machine. Note that **.env.local** (or **.env**) is required.
+```
+$ npm install
+$ npm run start
+```
