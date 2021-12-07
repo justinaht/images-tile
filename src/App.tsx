@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./App.sass";
 import { ItemModel } from "./types/ItemModel";
-import loader from "./assets/loading.gif";
 import { NUMBER_OF_EACH_FETCH } from "./common/constants";
 import { loadDefault, loadNextData } from "./actions";
 import Item from "./components/Item/Item";
+import Popup from "./components/Popup/Popup";
 
 function App() {
   const [images, setImages] = useState<ItemModel[]>([]);
@@ -46,6 +46,7 @@ function App() {
 
   return (
     <div className="App">
+      {loading && <Popup />}
       {images.map((item: ItemModel, index: number) => (
         <Item
           Item={item}
@@ -54,7 +55,6 @@ function App() {
           key={item.id}
         />
       ))}
-      {loading && <img src={loader} alt="Loading icon" />}
       <button onClick={onUpdate} disabled={disable}>
         Confirm Update
       </button>

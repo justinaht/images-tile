@@ -1,5 +1,7 @@
+import { NUMBER_OF_EACH_FETCH } from "./common/constants";
+
 const endPoints = {
-  loadDefaultAction: "/photos?_start=0&_end=10",
+  loadDefaultAction: "/photos?_start=0&_end=" + NUMBER_OF_EACH_FETCH,
   loadNextAction: (start: number, offset: number) =>
     `/photos?_start=${start}&_end=${start + offset}`
 };
