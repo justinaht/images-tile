@@ -5,6 +5,7 @@ import { NUMBER_OF_EACH_FETCH } from "./common/constants";
 import { loadDefault, loadNextData } from "./actions";
 import Item from "./components/Item/Item";
 import Popup from "./components/Popup/Popup";
+import { getLocalStorage } from "./common/helper";
 
 function App() {
   const [images, setImages] = useState<ItemModel[]>([]);
@@ -35,7 +36,8 @@ function App() {
   };
 
   const onReset = () => {
-    setImages(images);
+    const imageReset = getLocalStorage()
+    setImages(imageReset);
     setDisabled(true);
   };
 
@@ -43,6 +45,16 @@ function App() {
     setImages(images);
     setDisabled(true);
   };
+
+  const txtOnLostFocus = (txt: string, id: number) => {
+    const imagesEdited = images.map((e: ItemModel, i: number) => {
+      if (e.id === id) {
+        e.title = txt
+      }
+      return e
+    })
+    setImages(imagesEdited)
+  }
 
   return (
     <div className="App">
@@ -52,7 +64,9 @@ function App() {
           Item={item}
           index={index}
           onSetDisabled={setDisabled}
+          onLostFocus={txtOnLostFocus}
           key={item.id}
+          id={item.id}
         />
       ))}
       <button onClick={onUpdate} disabled={disable}>

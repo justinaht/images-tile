@@ -1,4 +1,5 @@
 import { NUMBER_OF_EACH_FETCH } from "./common/constants";
+import { setLocalStorage } from "./common/helper";
 
 const endPoints = {
   loadDefaultAction: "/photos?_start=0&_end=" + NUMBER_OF_EACH_FETCH,
@@ -11,6 +12,7 @@ export const loadDefault = async () => {
     process.env.REACT_APP_BACKEND_BASE_URL + endPoints.loadDefaultAction
   );
   const data = await response.json();
+  setLocalStorage(data);
   return data;
 };
 
@@ -20,5 +22,6 @@ export const loadNextData = async (currentIndex: number, dataSize: number) => {
       endPoints.loadNextAction(currentIndex, dataSize)
   );
   const data = await response.json();
+  setLocalStorage(data);
   return data;
 };

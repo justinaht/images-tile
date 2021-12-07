@@ -9,11 +9,15 @@ function Item(props: ListItemsModel) {
     props.onSetDisabled(false);
   };
 
+  const txtLostFocus = (value: string, id: number) => {
+    props.onLostFocus(value, id);
+  };
+
   const containerCls = setContainerClass(props.index);
   const item = props.Item;
   return (
     <div className={containerCls}>
-      <TextBox value={item.title} onValueChanged={txtChange} />
+      <TextBox value={item.title} onValueChanged={txtChange} onLostFocus={txtLostFocus} id={props.id} />
       <img
         className="img"
         src={item.thumbnailUrl}
