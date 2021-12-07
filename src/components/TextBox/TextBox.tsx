@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TextBoxProps } from "./TextBox.model";
 import style from "./TextBox.module.sass";
 
 export default function TextBox(props: TextBoxProps) {
-  const [text, setText] = useState("");
+  const [text, setText] = useState(props.value);
   const [txtCls, setTxtCls] = useState(style.txt_as_label);
   const [focus, setFocus] = useState(false);
 
-  useEffect(() => {
-    setText(props.value);
-  }, [props.value]);
+  // useEffect(() => {
+  //   setText(props.value);
+  // }, [props.value]);
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     setText(e.currentTarget.value);
@@ -33,6 +33,7 @@ export default function TextBox(props: TextBoxProps) {
 
   const onFocus = () => {
     setFocus(true);
+    setTxtCls(style.txt_as_input);
   };
 
   const onKeyDown = (e: any) => {
@@ -41,12 +42,12 @@ export default function TextBox(props: TextBoxProps) {
       setTxtCls(style.txt_as_label);
     }
   };
-
   return (
     <input
       type="text"
       className={txtCls}
       value={text}
+      readOnly={!focus || undefined}
       onChange={onChange}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
