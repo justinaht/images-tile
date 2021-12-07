@@ -1,4 +1,3 @@
-import React from "react";
 import moment from "moment";
 import TextBox from "../TextBox/TextBox";
 import { setContainerClass } from "../TextBox/TextBox.helper";
@@ -17,12 +16,13 @@ function Item(props: ListItemsModel) {
   const item = props.Item;
   return (
     <div className={containerCls}>
-      <TextBox value={item.title} onValueChanged={txtChange} onLostFocus={txtLostFocus} id={props.id} />
-      <img
-        className="img"
-        src={item.thumbnailUrl}
-        alt={item.title}
+      <TextBox
+        value={item.title}
+        onValueChanged={txtChange}
+        onLostFocus={txtLostFocus}
+        id={props.id}
       />
+      <img className="img" src={item.thumbnailUrl} alt={item.title} />
       <div>{moment().format("MMM Do, YYYY, H:mm:ss")}</div>
     </div>
   );

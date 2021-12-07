@@ -29,7 +29,7 @@ export default function TextBox(props: TextBoxProps) {
   const onLostFocus = (e: React.FormEvent<HTMLInputElement>) => {
     setFocus(false);
     setTxtCls(style.txt_as_label);
-    props.onLostFocus(e.currentTarget.value, props.id)
+    props.onLostFocus(e.currentTarget.value, props.id);
   };
 
   const onFocus = () => {

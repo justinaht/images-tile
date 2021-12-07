@@ -5,7 +5,7 @@ import { NUMBER_OF_EACH_FETCH } from "./common/constants";
 import { loadDefault, loadNextData } from "./actions";
 import Item from "./components/Item/Item";
 import Popup from "./components/Popup/Popup";
-import { getLocalStorage } from "./common/helper";
+import { getLocalStorage, setLocalStorage } from "./common/helper";
 
 function App() {
   const [images, setImages] = useState<ItemModel[]>([]);
@@ -14,10 +14,11 @@ function App() {
 
   async function loadDefaultData() {
     const data = await loadDefault();
+    setLocalStorage(data);
     setImages(data);
   }
 
-  // didmount
+  // componentDidMount
   useEffect(() => {
     loadDefaultData();
   }, []);
@@ -26,6 +27,8 @@ function App() {
     setLoading(true);
     const data = await loadNextData(images.length, NUMBER_OF_EACH_FETCH);
     setLoading(false);
+    const imagesOriginal = getLocalStorage();
+    setLocalStorage([...imagesOriginal, ...data]);
     setImages([...images, ...data]);
   }
   const [index, setIndex] = useState(0);
@@ -36,12 +39,13 @@ function App() {
   };
 
   const onReset = () => {
-    const imageReset = getLocalStorage()
+    const imageReset = getLocalStorage();
     setImages(imageReset);
     setDisabled(true);
   };
 
   const onUpdate = () => {
+    setLocalStorage(images);
     setImages(images);
     setDisabled(true);
   };
@@ -49,12 +53,12 @@ function App() {
   const txtOnLostFocus = (txt: string, id: number) => {
     const imagesEdited = images.map((e: ItemModel, i: number) => {
       if (e.id === id) {
-        e.title = txt
+        e.title = txt;
       }
-      return e
-    })
-    setImages(imagesEdited)
-  }
+      return e;
+    });
+    setImages(imagesEdited);
+  };
 
   return (
     <div className="App">

@@ -1,5 +1,4 @@
 import { NUMBER_OF_EACH_FETCH } from "./common/constants";
-import { setLocalStorage } from "./common/helper";
 
 const endPoints = {
   loadDefaultAction: "/photos?_start=0&_end=" + NUMBER_OF_EACH_FETCH,
@@ -7,21 +6,31 @@ const endPoints = {
     `/photos?_start=${start}&_end=${start + offset}`
 };
 
+/**
+ * load firts 10 records from API
+ * @param currentIndex current zero-based index of list items
+ * @param dataSize number of items to be fetched
+ * @returns next number of items to be fetched
+ */
 export const loadDefault = async () => {
   const response = await fetch(
     process.env.REACT_APP_BACKEND_BASE_URL + endPoints.loadDefaultAction
   );
   const data = await response.json();
-  setLocalStorage(data);
   return data;
 };
 
+/**
+ * load more data action
+ * @param currentIndex current zero-based index of list items
+ * @param dataSize number of items to be fetched
+ * @returns next number of items to be fetched
+ */
 export const loadNextData = async (currentIndex: number, dataSize: number) => {
   const response = await fetch(
     process.env.REACT_APP_BACKEND_BASE_URL +
       endPoints.loadNextAction(currentIndex, dataSize)
   );
   const data = await response.json();
-  setLocalStorage(data);
   return data;
 };
